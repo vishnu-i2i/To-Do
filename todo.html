@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <title>Tasks - To Do</title>
+    <link rel = "stylesheet" type = "text/css" href = "css/todo.css"/>
+  </head>
+
+  <body>
+    <div class = "container">
+        <div class = "top-nav">
+            <div class = "nav-menu">
+                <button class = "menu-button">
+                    <img src = "images/menu-icon.png" class = "menu-icon"/>
+                </button>
+            </div>
+            <label class = "nav-text">To Do</label>
+            <div class = "search-box">
+                <input type = "text" placeholder = "Search" class = "search-input"/>
+            </div>
+        </div>
+
+        <div class = "sub-container">
+            <div id = "side-nav" class = "side-nav">
+                <div id = "open-nav" class = "open-nav">
+                    <button>
+                       <input type = "hidden" id = "menu" value = "close">
+                       <img src = "images/bars.svg"/>
+                   </button>
+                </div>
+                <ul id = "side-list">
+                    <li>
+                        <div class = "side-nav-category">
+                            <span>
+                                <img src = "images/sun.svg"/>
+                            </span>
+                            <span class = "category-name">My Day</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class = "side-nav-category">
+                            <span>
+                                <img src = "images/star.svg"/>
+                            </span>
+                            <span class = "category-name">Important</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class = "side-nav-category">
+                            <span>
+                                <img src = "images/calendar.svg"/>
+                            </span>
+                            <span class = "category-name">Planned</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class = "side-nav-category">
+                            <span>
+                                <img src = "images/person.svg"/>
+                            </span>
+                            <span class = "category-name">Assigned to Me</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class = "side-nav-category">
+                            <span>
+                                <img src = "images/home.svg"/>
+                            </span>
+                            <span class = "category-name">Tasks</span>
+                        </div>
+                    </li>
+                        <div id = "task-list"> </div>
+                </ul>
+                <div id="new-task" class="side-nav-category">
+                    <span>
+                        <img src = "images/plus.svg">
+                    </span>
+                    <span class = "category-name">
+                        <input type = "text" id = "add-task" placeholder = "New List" />
+                    </span>
+                </div>
+            </div>
+            <div id="sub-task-body">
+                <span id="sub-task-title" class="sub-task-title"><b>Tasks</b></span>
+                <div id = "sub-task"></div>
+                <div id="enter-sub-task">
+                    <span>
+                        <input type="text" id="enter-task" placeholder="Add Task"/>
+                    </span>
+                </div>
+            </div>
+            <div id="step-body"></div>
+        </div>
+    </div>
+    <script type = "text/javascript" src = "todo.js"></script>
+  </body>
+</html>

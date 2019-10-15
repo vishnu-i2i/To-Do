@@ -14,7 +14,7 @@
             </div>
             <label class = "nav-text">To Do</label>
             <div class = "search-box">
-                <input type = "text" placeholder = "Search" class = "search-input"/>
+                <input type = "search" placeholder = "Search" class = "search-input"/>
             </div>
         </div>
 
@@ -78,16 +78,18 @@
                     </span>
                 </div>
             </div>
-            <div id="sub-task-body">
-                <span id="sub-task-title" class="sub-task-title"><b>Tasks</b></span>
-                <div id = "sub-task"></div>
-                <div id="enter-sub-task">
+            <div id="task-space">
+                <span id="task-title" class="task-title">
+                    <b>Tasks</b>
+                </span>
+                <div>
+                    <ul id="sub-task"> </ul>
+                </div>
                     <span>
-                        <input type="text" id="enter-task" placeholder="Add Task"/>
+                        <input type = "text" id = "add-sub-task" placeholder = "Add Task"/>
                     </span>
                 </div>
             </div>
-            <div id="step-body"></div>
         </div>
     </div>
     <script type = "text/javascript" src = "todo.js"></script>

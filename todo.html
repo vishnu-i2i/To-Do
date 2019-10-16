@@ -6,7 +6,7 @@
 
   <body>
     <div class = "container">
-        <div class = "top-nav">
+        <div class = "top-nav d-flex">
             <div class = "nav-menu">
                 <button class = "menu-button">
                     <img src = "images/menu-icon.png" class = "menu-icon"/>
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div class = "sub-container">
+        <div class = "sub-container d-flex">
             <div id = "side-nav" class = "side-nav">
                 <div id = "open-nav" class = "open-nav">
                     <button>
@@ -28,7 +28,7 @@
                 </div>
                 <ul id = "side-list">
                     <li>
-                        <div class = "side-nav-category">
+                        <div class = "d-flex">
                             <span>
                                 <img src = "images/sun.svg"/>
                             </span>
@@ -36,7 +36,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class = "side-nav-category">
+                        <div class = "d-flex">
                             <span>
                                 <img src = "images/star.svg"/>
                             </span>
@@ -44,7 +44,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class = "side-nav-category">
+                        <div class = "d-flex">
                             <span>
                                 <img src = "images/calendar.svg"/>
                             </span>
@@ -52,7 +52,7 @@
                         </div>
                     </li>
                     <li>
-                        <div class = "side-nav-category">
+                        <div class = "d-flex">
                             <span>
                                 <img src = "images/person.svg"/>
                             </span>
@@ -60,16 +60,18 @@
                         </div>
                     </li>
                     <li>
-                        <div class = "side-nav-category">
+                        <div class = "d-flex">
                             <span>
                                 <img src = "images/home.svg"/>
                             </span>
                             <span class = "category-name">Tasks</span>
                         </div>
                     </li>
-                        <div id = "task-list"> </div>
+                    <li>
+                            <div id = "task-list"> </div>
+                    </li>
                 </ul>
-                <div id="new-task" class="side-nav-category">
+                <div id="new-task" class="d-flex">
                     <span>
                         <img src = "images/plus.svg">
                     </span>
@@ -79,16 +81,29 @@
                 </div>
             </div>
             <div id="task-space">
-                <span id="task-title" class="task-title">
-                    <b>Tasks</b>
+                <span id="task-title" class="C-3e69e4">
+                    <input type = "text" value = "Tasks" id = "task-name"/>
                 </span>
                 <div>
-                    <ul id="sub-task"> </ul>
+                    <ul id="sub-task" class = "C-3e69e4"> </ul>
                 </div>
-                    <span>
-                        <input type = "text" id = "add-sub-task" placeholder = "Add Task"/>
-                    </span>
+                <span>
+                    <img src = "images/plus.svg">
+                </span>
+                <span>
+                    <input type = "text" id = "add-sub-task" placeholder = "Add Task"/>
+                </span>
+            </div>
+            <div class = "step-space"  id = "step-space">
+                <span id="sub-task-title" class="C-3e69e4">
+                        <input type = "text" />
+                </span>
+                <div>
+                    <ul id="step" class = "C-3e69e4"> </ul>
                 </div>
+                <span>
+                    <input type = "text" id = "add-step" placeholder = "Add Step"/>
+                </span>
             </div>
         </div>
     </div>

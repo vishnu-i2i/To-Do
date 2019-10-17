@@ -1,8 +1,10 @@
 init();
 
 let tasks = [];
-let taskId = 1;
-let subTaskId = 1;
+let currentTask = {};
+let currentSubTask = {};
+let taskId = 0;
+let subTaskId = 0;
 
 /**
  * Initial method called, Contains the list of event listeners and their 
@@ -12,16 +14,18 @@ function init() {
     addEventListeners(getElementById("open-nav"), "click", toggleMenu);
     addEventListeners(getElementById("new-task"), "click", openMenu);
     addEventListeners(getElementById("add-task"), "keyup", addTask);
+    addEventListeners(getElementById("task-name"), "keyup", updateTask);
     addEventListeners(getElementById("add-sub-task"), "keyup", addSubTask);
+    addEventListeners(getElementById("sub-task-name"), "keyup", updateSubTask);
     addEventListeners(getElementById("sub-task"), "click", openStepSpace);
     addEventListeners(getElementById("add-step"), "keyup", addStep);
 }
 
 /**
  * Generic method for adding event listeners
- * @param {} element for which listener is added
- * @param {} action the event to be listened
- * @param {} resultOperation is the method to be called for
+ * @param {Object} element for which listener is added
+ * @param {String} action the event to be listened
+ * @param {Function} resultOperation is the method to be called for
  *           the occuring event
  */
 function addEventListeners(element, action, resultOperation) {
@@ -30,8 +34,8 @@ function addEventListeners(element, action, resultOperation) {
 
 /**
  * Generic method for retrieving elements using Id in document
- * @param {} id whose element is retrived
- * @return {} element with corresponding id
+ * @param {Number} id whose element is retrived
+ * @return {Object} element with corresponding id
  */
 function getElementById(id) {
     return document.getElementById(id);
@@ -39,8 +43,8 @@ function getElementById(id) {
 
 /**
  * Generic method for getting list of elements using class name
- * @param {} className whose elements are retrived
- * @return {} list of elements with corresponding class name 
+ * @param {String} className whose elements are retrived
+ * @return {Object} list of elements with corresponding class name 
  */
 function getElementsByClassName(className) {
     return document.getElementsByClassName(className);
@@ -69,7 +73,7 @@ function toggleMenu() {
     }
 }
 
-/*
+/**
  * Opens the side navigation bar by increasing the width and diplaying
  * the options
  */
@@ -86,36 +90,37 @@ function openMenu() {
     }
 }
 
-/*
+/**
  * Generates the unique task id by incrementing a counter value
- * @return {} generated unique task id
+ * @return {Number} generated unique task id
  */
 function generateTaskId() {
     taskId++;
     return taskId;
 }
 
-/*
+/**
  * Adds a new task to the tasks list
  */
 function addTask(event) {
     let taskName = getElementById("add-task");
-    if (13 === event.keyCode && "" !== taskName.value.trim()) {
+    if (13 == event.keyCode && (taskName.value.trim())) {
         let task = {};
         task.id = generateTaskId();
         task.name = taskName.value;
         task.status = Boolean(true);
         task.subTasks = [];
         tasks.push(task);
-        displayTask(task);
+        currentTask = task;
+        displayTask(currentTask);
         getTask(task.id);
         taskName.value = "";
     }
 }
 
-/*
+/**
  * Displays the added task in the side navigation bar
- * @param {} task to be displayed
+ * @param {Object} task to be displayed
  */
 function displayTask(task) {
     const text = `<div id=${task.id} onclick="getTask(id)">
@@ -132,16 +137,31 @@ function displayTask(task) {
     getElementById("task-list").insertAdjacentHTML(position, text, task);
 }
 
-/*
+/**
+ * Updates the current task name with new task name entered
+ * @param {Object} event 
+ */
+function updateTask(event) {
+    let newTask = getElementById("task-name").value;
+    if ((13 == event.keyCode) && (newTask.trim())) {
+        currentTask.name = newTask;
+        getElementById("task-list").innerHTML = "";
+        for (let task of tasks) {
+            displayTask(task);
+        }
+    }
+}
+
+/**
  * Retrieves the task details with the given id
- * @param {} id of the task to be retrieved
+ * @param {Number} id of the task to be retrieved
  */
 function getTask(id) {
     getElementById("sub-task").textContent = "";
     for (let task of tasks) {
         if (task.id === Number(id)) {
+            currentTask = task;
             getElementById("task-name").value = task.name;
-            getElementById("task-title").value = task;
             for (let subTask of task.subTasks) {
                 displaySubTask(subTask);
             }
@@ -149,36 +169,36 @@ function getTask(id) {
     }
 }
 
-/*
+/**
  * Generates the unique sub task id by incrementing a counter value
- * @return {} generated unique sub task id
+ * @return {Number} generated unique sub task id
  */
 function generateSubTaskId() {
     subTaskId++;
     return subTaskId;
 }
 
-/*
+/**
  * Adds a new sub task to the sub tasks list in a particular task
  */
 function addSubTask(event) {
     let subTaskName = getElementById("add-sub-task");
     if (13 === event.keyCode && "" !== subTaskName.value.trim()) {
-        let task = getElementById("task-title").value;
         let subTask = {};
         subTask.id = generateSubTaskId();
         subTask.name = subTaskName.value;
         subTask.status = Boolean(true);
         subTask.steps = [];
-        task.subTasks.push(subTask);  
+        currentTask.subTasks.push(subTask);
+        currentSubTask = subTask; 
         subTaskName.value = "";
         displaySubTask(subTask);
     }
 }
 
-/*
+/**
  * Displays the added sub task in the task space div
- * @param {} subTask to be displayed
+ * @param {Object} subTask to be displayed
  */
 function displaySubTask(subTask) {
     const text = `<li>
@@ -187,7 +207,7 @@ function displaySubTask(subTask) {
                             <span>
                                 <img src = "images/circle.svg"/>
                             </span>
-                            <div id = "sub-task-name">
+                            <div id = "sub-task">
                                 ${subTask.name}
                             </div>
                         </div>
@@ -197,26 +217,39 @@ function displaySubTask(subTask) {
     getElementById("sub-task").insertAdjacentHTML(position, text, subTask.id);
 }
 
-/*
+/**
  * Retrieves the sub task details with the given id
- * @param {} id of the task to be retrieved
+ * @param {Number} id of the task to be retrieved
  */
 function getSubTask(id) {
     getElementById("step").textContent = "";
-    for (let task of tasks) {
-        for (let subTask of task.subTasks) { 
-            if (subTask.id === Number(id)) {
-                getElementById("task-name").value = subTask.name;
-                getElementById("sub-task-title").value = subTask;
-                for (let step of subTask.steps) {
-                    displayStep(step);
-                }
+    for (let subTask of currentTask.subTasks) { 
+        if (subTask.id === Number(id)) {
+            currentSubTask = subTask; 
+            getElementById("sub-task-name").value = subTask.name;
+            for (let step of subTask.steps) {
+                displayStep(step);
             }
         }
     }
 }
 
-/*
+/**
+ * Updates the current sub task name with new sub task name entered
+ * @param {Object} event 
+ */
+function updateSubTask(event) {
+    let newSubTask = getElementById("sub-task-name").value;
+    if ((13 == event.keyCode) && ("" !== newSubTask.trim())) {
+        currentSubTask.name = newSubTask;
+        getElementById("sub-task").innerHTML = "";
+        for (let subTask of currentTask.subTasks) {
+            displaySubTask(subTask);
+        }
+    }
+}
+
+/**
  * Opens the step space div to add spaces for adding steps to task
  * while clicking on the sub task name
  */
@@ -225,25 +258,24 @@ function openStepSpace(event) {
     stepSpace.setAttribute("class", "step-space step-space-open");
 }
 
-/*
+/**
  * Adds a new sub task to the sub tasks list in a particular task
  */
 function addStep(event) {
     let stepName = getElementById("add-step");
     if (13 === event.keyCode && "" !== stepName.value.trim()) {
-        let subTask = getElementById("sub-task-title").value;
         let step = {};
         step.name = stepName.value;
         step.status = Boolean(true);
-        subTask.steps.push(step);  
+        currentSubTask.steps.push(step);  
         stepName.value = "";
         displayStep(step);
     }
 }
 
-/*
+/**
  * Displays the added step in the step space div
- * @param {} step to be displayed
+ * @param {Object} step to be displayed
  */
 function displayStep (step) {
     const text = `<li>

@@ -170,3 +170,8 @@ div#new-task {
 .step-space-open {
     width: 45%;
 }
+
+.sub-task{
+    margin-left: 10px;
+    margin-top: 10px;
+}

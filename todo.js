@@ -3,8 +3,8 @@ init();
 let tasks = [];
 let currentTask = {};
 let currentSubTask = {};
-let taskId = 0;
-let subTaskId = 0;
+let currentStep = {};
+let id = 0;
 
 /**
  * Initial method called, Contains the list of event listeners and their 
@@ -48,6 +48,10 @@ function getElementById(id) {
  */
 function getElementsByClassName(className) {
     return document.getElementsByClassName(className);
+}
+
+function createElement (elementName) {
+    return document.createElement(elementName);
 }
 
 /**
@@ -94,9 +98,9 @@ function openMenu() {
  * Generates the unique task id by incrementing a counter value
  * @return {Number} generated unique task id
  */
-function generateTaskId() {
-    taskId++;
-    return taskId;
+function generateId() {
+    id++;
+    return id;
 }
 
 /**
@@ -106,7 +110,7 @@ function addTask(event) {
     let taskName = getElementById("add-task");
     if (13 == event.keyCode && (taskName.value.trim())) {
         let task = {};
-        task.id = generateTaskId();
+        task.id = generateId();
         task.name = taskName.value;
         task.status = Boolean(true);
         task.subTasks = [];
@@ -123,18 +127,21 @@ function addTask(event) {
  * @param {Object} task to be displayed
  */
 function displayTask(task) {
-    const text = `<div id=${task.id} onclick="getTask(id)">
-                    <div class = "d-flex">
-                        <span>
-                            <img src = "images/bullet-list.svg"/>
-                        </span>
-                        <div id = "category-name" class="category-name category-name-show ">
-                            ${task.name}
-                        </div>
-                    </div>
-                  </div>`;
-    const position = "beforeend";
-    getElementById("task-list").insertAdjacentHTML(position, text, task);
+    let taskList = getElementById("task-list")
+    let mainDiv = createElement("div");
+    let flexDiv = createElement("div");
+    let imageSpan = createElement("img")
+    let nameDiv = createElement("div");
+    mainDiv.setAttribute("id", task.id);
+    mainDiv.setAttribute("onclick", "getTask(id)");
+    flexDiv.setAttribute("class", "d-flex")
+    imageSpan.setAttribute("src", "images/bullet-list.svg");
+    nameDiv.setAttribute("class", "category-name category-name-show");
+    nameDiv.textContent = task.name;
+    mainDiv.appendChild(flexDiv);
+    flexDiv.appendChild(imageSpan)
+    flexDiv.appendChild(nameDiv);
+    taskList.appendChild(mainDiv);
 }
 
 /**
@@ -170,22 +177,13 @@ function getTask(id) {
 }
 
 /**
- * Generates the unique sub task id by incrementing a counter value
- * @return {Number} generated unique sub task id
- */
-function generateSubTaskId() {
-    subTaskId++;
-    return subTaskId;
-}
-
-/**
  * Adds a new sub task to the sub tasks list in a particular task
  */
 function addSubTask(event) {
     let subTaskName = getElementById("add-sub-task");
     if (13 === event.keyCode && "" !== subTaskName.value.trim()) {
         let subTask = {};
-        subTask.id = generateSubTaskId();
+        subTask.id = generateId();
         subTask.name = subTaskName.value;
         subTask.status = Boolean(true);
         subTask.steps = [];
@@ -201,20 +199,24 @@ function addSubTask(event) {
  * @param {Object} subTask to be displayed
  */
 function displaySubTask(subTask) {
-    const text = `<li>
-                    <div id=${subTask.id} onclick="getSubTask(id)">
-                        <div class = "d-flex">
-                            <span>
-                                <img src = "images/circle.svg"/>
-                            </span>
-                            <div id = "sub-task">
-                                ${subTask.name}
-                            </div>
-                        </div>
-                    </div>
-                  </li>`;
-    const position = "beforeend";
-    getElementById("sub-task").insertAdjacentHTML(position, text, subTask.id);
+    let taskList = getElementById("sub-task")
+    let listIndex = createElement("li");
+    let mainDiv = createElement("div");
+    let flexDiv = createElement("div");
+    let imageSpan = createElement("img")
+    let nameDiv = createElement("div");
+    mainDiv.setAttribute("id", subTask.id);
+    mainDiv.setAttribute("onclick", "getSubTask(id)");
+    flexDiv.setAttribute("class", "d-flex");
+    imageSpan.setAttribute("src", "images/circle.svg");
+    imageSpan.setAttribute("class", "sub-task")
+    nameDiv.setAttribute("class", "sub-task");
+    nameDiv.textContent = subTask.name;
+    listIndex.appendChild(mainDiv);
+    mainDiv.appendChild(flexDiv);
+    flexDiv.appendChild(imageSpan)
+    flexDiv.appendChild(nameDiv);
+    taskList.appendChild(mainDiv);
 }
 
 /**
@@ -265,6 +267,7 @@ function addStep(event) {
     let stepName = getElementById("add-step");
     if (13 === event.keyCode && "" !== stepName.value.trim()) {
         let step = {};
+        step.id = generateId();
         step.name = stepName.value;
         step.status = Boolean(true);
         currentSubTask.steps.push(step);  
@@ -278,19 +281,34 @@ function addStep(event) {
  * @param {Object} step to be displayed
  */
 function displayStep (step) {
-    const text = `<li>
-                    <div id=${step.id}>
-                      <div class = "d-flex">
-                        <span>
-                          <img src = "images/circle.svg"/>
-                        </span>
-                        <div id = "step-name" >
-                          ${step.name}
-                        </div>
-                      </div>
-                    </div>
-                  </li>`;
-    const position = "beforeend";
-    getElementById("step").insertAdjacentHTML(position, text, step.id);
+    let taskList = getElementById("step")
+    let listIndex = createElement("li");
+    let mainDiv = createElement("div");
+    let flexDiv = createElement("div");
+    let imageSpan = createElement("img")
+    let nameDiv = createElement("div");
+    mainDiv.setAttribute("id", step.id);
+    mainDiv.setAttribute("onclick", "getStep(id)");
+    flexDiv.setAttribute("class", "d-flex");
+    imageSpan.setAttribute("src", "images/circle.svg");
+    imageSpan.setAttribute("class", "sub-task")
+    nameDiv.setAttribute("class", "sub-task");
+    nameDiv.textContent = step.name;
+    listIndex.appendChild(mainDiv);
+    mainDiv.appendChild(flexDiv);
+    flexDiv.appendChild(imageSpan)
+    flexDiv.appendChild(nameDiv);
+    taskList.appendChild(mainDiv);
 }
 
+/**
+ * Retrieves the step details with the given id
+ * @param {Number} id 
+ */
+function getStep(id) {
+    for (let step of currentSubTask.steps) { 
+        if (step.id === Number(id)) {
+            currentStep = step; 
+        }
+    }
+}

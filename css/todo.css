@@ -11,8 +11,8 @@ button {
 
 ul {
     list-style: none;
-    padding: 0.5rem;
-    padding-top: 1.2rem;
+    padding: 0.7rem;
+    padding-top: 0.2rem;
 }
 
 img {
@@ -148,7 +148,23 @@ input[type="text"]::placeholder{
     display: none;
 }
 
-div#new-task {
+.task-name {
+    margin-top: 40px;
+    margin-left: 29px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.add-task {
+    margin-left: 25px;
+    font-size: 16px;
+}
+
+.add-task-image {
+    margin-left: 30px;
+}
+
+.new-task {
     padding-left: 0.5rem;
 }
 
@@ -156,7 +172,7 @@ div#new-task {
     color: #3e69e4;
 }
 
-#task-space {
+.task-space {
     height: 117%;
     width: 100%;
 }
@@ -171,7 +187,94 @@ div#new-task {
     width: 45%;
 }
 
-.sub-task{
-    margin-left: 10px;
+.sub-task {
+    margin-left: 30px;
     margin-top: 10px;
+}
+
+.sub-task-image {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.step-title {
+    margin-left: 11px;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+.step-title-image {
+    margin-left: 11px;
+    margin-top: 15px;
+}
+
+.sub-task-title {
+    width: 305px;
+    margin-left: 11px;
+    background: white;
+    margin-top: 20px;;
+}
+.sub-task-name {
+    display: flex;
+}
+.steps {
+    width: 1rem;
+    background: white;
+}
+
+.step {
+    margin-left: 16px;
+}
+
+.step image {
+    margin-left: 10px;
+}
+
+.add-step {
+    margin-left: 11px;
+    background: #ffffff;
+}
+
+.add-my-day {
+    width: 306px;
+    height: 50px;
+    margin: 15px 10px 10px 10px;
+    background-color: #ffffff;
+    color: #767678;
+    line-height: 50px;
+}
+
+.add-my-day:hover {
+    background-color: #ededed;
+    color: #141212;
+}
+
+.add-my-day i {
+    margin: 0 34px 0 19px;
+}
+
+.step-content-remind {
+    width: 306px;
+    height: 170px;
+    margin: 10px 10px 10px 10px;
+    background-color: #ffffff;
+    line-height: 50px;
+}
+
+.remind-content {
+    width: 306px;
+    height: 50px;
+    margin: 10px 10px 10px 0px;
+    background-color: #ffffff;
+    line-height: 50px;
+    color: #767678;
+}
+
+.remind-content:hover {
+    background-color: #ededed;
+    color: #141212;
+}
+
+.remind-content i {
+    margin: 0px 37px 0 21px;
 }

@@ -209,7 +209,7 @@ function displaySubTask(subTask) {
     mainDiv.setAttribute("onclick", "getSubTask(id)");
     flexDiv.setAttribute("class", "d-flex");
     imageSpan.setAttribute("src", "images/circle.svg");
-    imageSpan.setAttribute("class", "sub-task")
+    imageSpan.setAttribute("class", "sub-task-image")
     nameDiv.setAttribute("class", "sub-task");
     nameDiv.textContent = subTask.name;
     listIndex.appendChild(mainDiv);
@@ -291,8 +291,8 @@ function displayStep (step) {
     mainDiv.setAttribute("onclick", "getStep(id)");
     flexDiv.setAttribute("class", "d-flex");
     imageSpan.setAttribute("src", "images/circle.svg");
-    imageSpan.setAttribute("class", "sub-task")
-    nameDiv.setAttribute("class", "sub-task");
+    imageSpan.setAttribute("class", "step-image")
+    nameDiv.setAttribute("class", "step");
     nameDiv.textContent = step.name;
     listIndex.appendChild(mainDiv);
     mainDiv.appendChild(flexDiv);

@@ -72,7 +72,7 @@
                             <div id = "task-list"> </div>
                     </li>
                 </ul>
-                <div id = "new-task" class = "d-flex">
+                <div id = "new-task" class = "new-task d-flex">
                     <span>
                         <img src = "images/plus.svg">
                     </span>
@@ -81,30 +81,58 @@
                     </span>
                 </div>
             </div>
-            <div id = "task-space">
+            <div id = "task-space" class = "task-space">
                 <span id = "task-title">
-                    <input type = "text" value = "Tasks" id = "task-name" class = "C-3e69e4"/>
+                    <input type = "text" value = "Tasks" id = "task-name" class = "task-name C-3e69e4"/>
                 </span>
                 <div>
                     <ul id = "sub-task" class = "C-3e69e4"> </ul>
                 </div>
                 <span>
-                    <img src = "images/plus.svg">
+                    <img src = "images/plus.svg" class = "add-task-image"/>
                 </span>
                 <span>
-                    <input type = "text" id = "add-sub-task" placeholder = "Add Task"/>
+                    <input type = "text" id = "add-sub-task" class = "add-task" placeholder = "Add Task"/>
                 </span>
             </div>
             <div class = "step-space"  id = "step-space">
-                <span id = "sub-task-title" >
-                    <input type = "text" id = "sub-task-name" class = "C-3e69e4"/>
-                </span>
-                <div>
-                    <ul id = "step" class = "C-3e69e4"> </ul>
+                <div id = "sub-task-title" class = "sub-task-title">
+                    <div class = "sub-task-name">
+                        <img src = "images/circle.svg" class = "step-title-image"/>
+                        <input type = "text" id = "sub-task-name" class = "step-title "/>
+                    </div>
+                    <div class = "steps">
+                            <ul id = "step" > </ul>
+                    </div>
+                    <div class = "add-step">
+                        <img src = "images/plus.svg"/>
+                        <input type = "text" id = "add-step" placeholder = "Add Step"/>
+                    </div>
                 </div>
-                <span>
-                    <input type = "text" id = "add-step" placeholder = "Add Step"/>
-                </span>
+                
+                
+                    <div class="add-my-day">
+                        <i class="ms-Icon ms-Icon--Sunny iconSize-24 list-icon"></i>
+                        <span>My Day</span>
+                    </div>
+                    <div class="step-content-remind">
+                    <div class="remind-content">
+                        <i class="ms-Icon ms-Icon--AlarmClock iconSize-24" ></i>
+                      <span>Remind Me</span>
+                    </div>
+                    <div class="remind-content">
+                        <i class="ms-Icon ms-Icon--Calendar iconSize-24" ></i>
+                      <span>Add due date</span>
+                    </div>
+                    <div class="remind-content">
+                        <i class="ms-Icon ms-Icon--RecurringEvent iconSize-24" ></i>
+                      <span>Repeat</span>
+                    </div>
+                  </div>
+                  <div class="add-my-day">
+                      <i class="ms-Icon ms-Icon--Attach iconSize-24" ></i>
+                    <span>Add file</span>
+                  </div>
             </div>
         </div>
     </div>

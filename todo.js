@@ -29,7 +29,7 @@ function init() {
  *           the occuring event
  */
 function addEventListeners(element, action, resultOperation) {
-    element.addEventListener(action, resultOperation)
+    element.bind(action, resultOperation) ;
 }
 
 /**
@@ -38,7 +38,7 @@ function addEventListeners(element, action, resultOperation) {
  * @return {Object} element with corresponding id
  */
 function getElementById(id) {
-    return document.getElementById(id);
+    return $("#" + id);
 }
 
 /**
@@ -47,11 +47,11 @@ function getElementById(id) {
  * @return {Object} list of elements with corresponding class name 
  */
 function getElementsByClassName(className) {
-    return document.getElementsByClassName(className);
+    return $("." + className);
 }
 
 function createElement (elementName) {
-    return document.createElement(elementName);
+    return $(document.createElement(elementName));
 }
 
 /**
@@ -62,18 +62,16 @@ function toggleMenu() {
     let toggleStatus = getElementById("menu");
     let sideBar = getElementById("side-nav");
     let categories = getElementsByClassName("category-name");
-    if ("close" == toggleStatus.value) {
-        sideBar.setAttribute("class", "side-nav side-nav-open");
-        toggleStatus.value = "open";
-        for (let category of categories) {
-            category.setAttribute("class", "category-name category-name-show");
-        }
+    if ("close" == toggleStatus.val()) {
+        sideBar.removeClass("side-nav-close");
+        sideBar.addClass("side-nav-open");
+        toggleStatus.val("open");
+        categories.toggle();
     } else {
-        sideBar.setAttribute("class", "side-nav side-nav-close");
-        toggleStatus.value = "close";
-        for (let category of categories) {
-            category.setAttribute("class", "category-name category-name-hide");
-        }
+        sideBar.removeClass("side-nav-open")
+        sideBar.addClass("side-nav-close");
+        toggleStatus.val("close");
+        categories.toggle();
     }
 }
 
@@ -85,12 +83,11 @@ function openMenu() {
     let toggleStatus = getElementById("menu");
     let sideBar = getElementById("side-nav");
     let categories = getElementsByClassName("category-name");
-    if ("close" == toggleStatus.value) {
-        sideBar.setAttribute("class", "side-nav side-nav-open");
-        toggleStatus.value = "open";
-        for (let category of categories) {
-            category.setAttribute("class", "category-name category-name-show");
-        }
+    if ("close" == toggleStatus.val()) {
+        sideBar.removeClass("side-nav-close");
+        sideBar.addClass("side-nav-open");
+        toggleStatus.val("open");
+        categories.toggle();
     }
 }
 
@@ -108,17 +105,17 @@ function generateId() {
  */
 function addTask(event) {
     let taskName = getElementById("add-task");
-    if (13 == event.keyCode && (taskName.value.trim())) {
+    if (13 == event.keyCode && (taskName.val().trim())) {
         let task = {};
         task.id = generateId();
-        task.name = taskName.value;
+        task.name = taskName.val();
         task.status = Boolean(true);
         task.subTasks = [];
         tasks.push(task);
         currentTask = task;
         displayTask(currentTask);
         getTask(task.id);
-        taskName.value = "";
+        taskName.val("");
     }
 }
 
@@ -132,16 +129,18 @@ function displayTask(task) {
     let flexDiv = createElement("div");
     let imageSpan = createElement("img")
     let nameDiv = createElement("div");
-    mainDiv.setAttribute("id", task.id);
-    mainDiv.setAttribute("onclick", "getTask(id)");
-    flexDiv.setAttribute("class", "d-flex")
-    imageSpan.setAttribute("src", "images/bullet-list.svg");
-    nameDiv.setAttribute("class", "category-name category-name-show");
-    nameDiv.textContent = task.name;
-    mainDiv.appendChild(flexDiv);
-    flexDiv.appendChild(imageSpan)
-    flexDiv.appendChild(nameDiv);
-    taskList.appendChild(mainDiv);
+    mainDiv.attr("id", task.id);
+    mainDiv.click(function() {
+        getTask(task.id);
+    });
+    flexDiv.addClass("d-flex");
+    imageSpan.attr("src", "images/bullet-list.svg");
+    nameDiv.addClass("category-name category-name-show");
+    nameDiv.text(task.name);
+    mainDiv.append(flexDiv);
+    flexDiv.append(imageSpan)
+    flexDiv.append(nameDiv);
+    taskList.append(mainDiv);
 }
 
 /**
@@ -149,10 +148,10 @@ function displayTask(task) {
  * @param {Object} event 
  */
 function updateTask(event) {
-    let newTask = getElementById("task-name").value;
+    let newTask = getElementById("task-name").val();
     if ((13 == event.keyCode) && (newTask.trim())) {
         currentTask.name = newTask;
-        getElementById("task-list").innerHTML = "";
+        getElementById("task-list").empty();
         for (let task of tasks) {
             displayTask(task);
         }
@@ -164,11 +163,11 @@ function updateTask(event) {
  * @param {Number} id of the task to be retrieved
  */
 function getTask(id) {
-    getElementById("sub-task").textContent = "";
+    getElementById("sub-task").empty();
     for (let task of tasks) {
         if (task.id === Number(id)) {
             currentTask = task;
-            getElementById("task-name").value = task.name;
+            getElementById("task-name").val(task.name);
             for (let subTask of task.subTasks) {
                 displaySubTask(subTask);
             }
@@ -181,15 +180,15 @@ function getTask(id) {
  */
 function addSubTask(event) {
     let subTaskName = getElementById("add-sub-task");
-    if (13 === event.keyCode && "" !== subTaskName.value.trim()) {
+    if (13 === event.keyCode && "" !== subTaskName.val().trim()) {
         let subTask = {};
         subTask.id = generateId();
-        subTask.name = subTaskName.value;
+        subTask.name = subTaskName.val();
         subTask.status = Boolean(true);
         subTask.steps = [];
         currentTask.subTasks.push(subTask);
         currentSubTask = subTask; 
-        subTaskName.value = "";
+        subTaskName.val("");
         displaySubTask(subTask);
     }
 }
@@ -205,18 +204,21 @@ function displaySubTask(subTask) {
     let flexDiv = createElement("div");
     let imageSpan = createElement("img")
     let nameDiv = createElement("div");
-    mainDiv.setAttribute("id", subTask.id);
-    mainDiv.setAttribute("onclick", "getSubTask(id)");
-    flexDiv.setAttribute("class", "d-flex");
-    imageSpan.setAttribute("src", "images/circle.svg");
-    imageSpan.setAttribute("class", "sub-task-image")
-    nameDiv.setAttribute("class", "sub-task");
-    nameDiv.textContent = subTask.name;
-    listIndex.appendChild(mainDiv);
-    mainDiv.appendChild(flexDiv);
-    flexDiv.appendChild(imageSpan)
-    flexDiv.appendChild(nameDiv);
-    taskList.appendChild(mainDiv);
+    mainDiv.attr("id", subTask.id);
+    mainDiv.click(function() { 
+        getSubTask(subTask.id);
+    });
+    flexDiv.addClass("d-flex");
+    imageSpan.attr("src", "images/circle.svg");
+    imageSpan.click(function() {strikeSubTask(subTask.id)});
+    imageSpan.addClass("sub-task-image")
+    nameDiv.addClass("sub-task");
+    nameDiv.text(subTask.name);
+    listIndex.append(mainDiv);
+    mainDiv.append(flexDiv);
+    flexDiv.append(imageSpan)
+    flexDiv.append(nameDiv);
+    taskList.append(mainDiv);
 }
 
 /**
@@ -224,12 +226,15 @@ function displaySubTask(subTask) {
  * @param {Number} id of the task to be retrieved
  */
 function getSubTask(id) {
-    getElementById("step").textContent = "";
+    getElementById("step").empty();
     for (let subTask of currentTask.subTasks) { 
         if (subTask.id === Number(id)) {
             currentSubTask = subTask; 
-            getElementById("sub-task-name").value = subTask.name;
+            getElementById("sub-task-name").val(subTask.name);
+            console.log("****************")
             for (let step of subTask.steps) {
+                let a = 0;
+                console.log(a++);
                 displayStep(step);
             }
         }
@@ -241,14 +246,18 @@ function getSubTask(id) {
  * @param {Object} event 
  */
 function updateSubTask(event) {
-    let newSubTask = getElementById("sub-task-name").value;
+    let newSubTask = getElementById("sub-task-name").val();
     if ((13 == event.keyCode) && ("" !== newSubTask.trim())) {
         currentSubTask.name = newSubTask;
-        getElementById("sub-task").innerHTML = "";
+        getElementById("sub-task").empty();
         for (let subTask of currentTask.subTasks) {
             displaySubTask(subTask);
         }
     }
+}
+
+function strikeSubtask(id) {
+
 }
 
 /**
@@ -257,7 +266,7 @@ function updateSubTask(event) {
  */
 function openStepSpace(event) {
     let stepSpace = getElementById("step-space");
-    stepSpace.setAttribute("class", "step-space step-space-open");
+    stepSpace.addClass("step-space-open");
 }
 
 /**
@@ -265,13 +274,13 @@ function openStepSpace(event) {
  */
 function addStep(event) {
     let stepName = getElementById("add-step");
-    if (13 === event.keyCode && "" !== stepName.value.trim()) {
+    if (13 === event.keyCode && "" !== stepName.val().trim()) {
         let step = {};
         step.id = generateId();
-        step.name = stepName.value;
+        step.name = stepName.val();
         step.status = Boolean(true);
         currentSubTask.steps.push(step);  
-        stepName.value = "";
+        stepName.val("");
         displayStep(step);
     }
 }
@@ -287,18 +296,18 @@ function displayStep (step) {
     let flexDiv = createElement("div");
     let imageSpan = createElement("img")
     let nameDiv = createElement("div");
-    mainDiv.setAttribute("id", step.id);
-    mainDiv.setAttribute("onclick", "getStep(id)");
-    flexDiv.setAttribute("class", "d-flex");
-    imageSpan.setAttribute("src", "images/circle.svg");
-    imageSpan.setAttribute("class", "step-image")
-    nameDiv.setAttribute("class", "step");
-    nameDiv.textContent = step.name;
-    listIndex.appendChild(mainDiv);
-    mainDiv.appendChild(flexDiv);
-    flexDiv.appendChild(imageSpan)
-    flexDiv.appendChild(nameDiv);
-    taskList.appendChild(mainDiv);
+    mainDiv.attr("id", step.id);
+    mainDiv.click(function() {getStep(id);});
+    flexDiv.addClass("d-flex");
+    imageSpan.attr("src", "images/circle.svg");
+    imageSpan.addClass("step-image")
+    nameDiv.addClass("step");
+    nameDiv.text(step.name);
+    listIndex.append(mainDiv);
+    mainDiv.append(flexDiv);
+    flexDiv.append(imageSpan)
+    flexDiv.append(nameDiv);
+    taskList.append(mainDiv);
 }
 
 /**

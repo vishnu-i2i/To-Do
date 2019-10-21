@@ -99,12 +99,12 @@ input[type="text"]::placeholder{
     height: 80%;
 }
 
-.side-nav{
+.side-nav {
     transition: 0.3s;
     padding-top: 1.7rem;
     padding-left: 0.5rem;
-    width: 4%;
     height: 112%;
+    width: 4%; 
     background-color: #f4f4f4;
     overflow: hidden;
 }

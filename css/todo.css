@@ -172,6 +172,14 @@ input[type="text"]::placeholder{
     color: #3e69e4;
 }
 
+.strike-through {
+    text-decoration: line-through;
+}
+
+.strike-remove {
+    text-decoration: none;
+}
+
 .task-space {
     height: 117%;
     width: 100%;

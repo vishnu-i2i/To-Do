@@ -205,15 +205,24 @@ function displaySubTask(subTask) {
     let imageSpan = createElement("img")
     let nameDiv = createElement("div");
     mainDiv.attr("id", subTask.id);
-    mainDiv.click(function() { 
-        getSubTask(subTask.id);
-    });
     flexDiv.addClass("d-flex");
-    imageSpan.attr("src", "images/circle.svg");
-    imageSpan.click(function() {strikeSubTask(subTask.id)});
-    imageSpan.addClass("sub-task-image")
+    imageSpan.click(function() {
+        strikeSubTask(subTask)
+    });
+    imageSpan.addClass("sub-task-image");
     nameDiv.addClass("sub-task");
     nameDiv.text(subTask.name);
+    nameDiv.attr("id", "sub-task-id")
+    nameDiv.click(function() { 
+        getSubTask(subTask.id);
+    });
+    if (subTask.status) {
+        imageSpan.attr("src", "images/circle.svg");
+        imageSpan.removeClass("strike-through");
+    } else {
+        imageSpan.attr("src", "images/circle-checked.svg");
+        nameDiv.addClass("strike-through")
+    }
     listIndex.append(mainDiv);
     mainDiv.append(flexDiv);
     flexDiv.append(imageSpan)
@@ -231,10 +240,7 @@ function getSubTask(id) {
         if (subTask.id === Number(id)) {
             currentSubTask = subTask; 
             getElementById("sub-task-name").val(subTask.name);
-            console.log("****************")
             for (let step of subTask.steps) {
-                let a = 0;
-                console.log(a++);
                 displayStep(step);
             }
         }
@@ -256,8 +262,12 @@ function updateSubTask(event) {
     }
 }
 
-function strikeSubtask(id) {
-
+function strikeSubTask(subTask) {
+    subTask.status = !subTask.status; 
+    getElementById("sub-task").empty();
+    for (let subTask of currentTask.subTasks) {
+        displaySubTask(subTask);
+    }
 }
 
 /**
@@ -267,6 +277,7 @@ function strikeSubtask(id) {
 function openStepSpace(event) {
     let stepSpace = getElementById("step-space");
     stepSpace.addClass("step-space-open");
+    getElementById("step-title-image").strikeSubTask(currentTask.id);
 }
 
 /**
